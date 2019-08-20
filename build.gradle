@@ -21,8 +21,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-jersey'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compile 'io.projectreactor:reactor-bus:2.0.8.RELEASE'
-	compile "io.projectreactor:reactor-core:2.0.8.RELEASE"
+	implementation 'io.projectreactor:reactor-bus:2.0.8.RELEASE'
+	implementation "io.projectreactor:reactor-core:2.0.8.RELEASE"
 	runtimeOnly 'com.h2database:h2'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

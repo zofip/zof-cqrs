@@ -30,10 +30,7 @@ public class UserController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void create(@RequestBody UserDto userDto) {
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
+        User user = modelMapper.map(userDto, User.class);
         commandService.emit(user, Table.USER, Type.CREATED);
     }
 
@@ -42,7 +39,7 @@ public class UserController {
     public void update(@PathVariable("id") long id, @RequestBody UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
         user.setId(id);
-        commandService.emit(user, Table.USER, Type.CREATED);
+        commandService.emit(user, Table.USER, Type.UPDATE);
     }
 
     @RequestMapping(method = RequestMethod.GET)

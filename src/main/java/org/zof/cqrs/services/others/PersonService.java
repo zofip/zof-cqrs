@@ -1,22 +1,22 @@
 package org.zof.cqrs.services.others;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.zof.cqrs.entity.Person;
-import org.zof.cqrs.entity.Transaction;
 import org.zof.cqrs.event.Command;
 import org.zof.cqrs.repository.PersonRepository;
-import org.zof.cqrs.repository.TransactionRepository;
 import org.zof.cqrs.utility.Field;
 import org.zof.cqrs.utility.Table;
 import org.zof.cqrs.utility.Type;
 
+@Service
 public class PersonService implements IBaseService {
 
     @Autowired
     private PersonRepository personRepository;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private ITransactionService transactionService;
 
     @Override
     public void send(Command command) {
@@ -31,21 +31,13 @@ public class PersonService implements IBaseService {
     }
 
     private void trackingCreate(Type type, Person person) {
-        createTransaction(type, person, Field.NAME, person.getName());
+        transactionService.createByTable(type, Table.PERSON, Field.NAME, person.getId(), person.getName());
     }
 
     private void trackingUpdate(Type type, Person person) {
         Person foundPerson = personRepository.findById(person.getId()).get();
-        if (!foundPerson.getName().equals(person.getName())) createTransaction(type, person, Field.NAME, person.getName());
+        if (!foundPerson.getName().equals(person.getName()))
+            transactionService.createByTable(type, Table.PERSON, Field.NAME, person.getId(), person.getName());
     }
 
-    private void createTransaction(Type type, Person person, Field field, String value) {
-        Transaction transaction = new Transaction();
-        transaction.setType(String.valueOf(type));
-        transaction.setTableTransaction(String.valueOf(Table.USER));
-        transaction.setFieldTable(String.valueOf(field));
-        transaction.setValueTransaction(value);
-//        transaction.setUser(user);
-        transactionRepository.save(transaction);
-    }
 }

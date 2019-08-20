@@ -17,14 +17,12 @@ public class Transaction implements Serializable {
 
     private String valueTransaction;
 
+    private Long tableRecordId;
+
     private String fieldTable;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
-
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
 
     @PrePersist
     protected void onCreateDate() {
@@ -63,6 +61,14 @@ public class Transaction implements Serializable {
         this.valueTransaction = valueTransaction;
     }
 
+    public Long getTableRecordId() {
+        return tableRecordId;
+    }
+
+    public void setTableRecordId(Long tableRecordId) {
+        this.tableRecordId = tableRecordId;
+    }
+
     public String getFieldTable() {
         return fieldTable;
     }
@@ -71,11 +77,4 @@ public class Transaction implements Serializable {
         this.fieldTable = fieldTable;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping(value = "/api/person")
+@RequestMapping(value = "/api/persons")
 public class PersonController {
 
     @Autowired
@@ -30,8 +30,7 @@ public class PersonController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void create(@RequestBody PersonDto personDto) {
-        Person person = new Person();
-        person.setName(personDto.getName());
+        Person person =  modelMapper.map(personDto, Person.class);
         commandService.emit(person, Table.PERSON, Type.CREATED);
     }
 

@@ -12,15 +12,10 @@ import java.util.List;
 public class UserQueryService implements IUserQueryService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public List<User> getS() {
-        return (List<User>) userRepository.findAll();
-    }
-
-    @Override
-    public long countAllUsers() {
-        return userRepository.count();
+        return userRepository.findAll();
     }
 }
